@@ -152,7 +152,7 @@
         </div>
       </div>
 
-      <form id="lead-form">
+      <form id="lead-form" onsubmit="submitToGoogle(event)">
         <input type="text" name="name" placeholder="First Name" required>
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="tel" name="phone" placeholder="Phone Number" required>
@@ -179,5 +179,38 @@
       By submitting this form, you agree to our privacy policy and consent to receive electronic communications in accordance with applicable Australian laws. Your personal information will be handled in compliance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs).
     </p>
   </main>
+
+  <script>
+    function submitToGoogle(event) {
+      event.preventDefault();
+
+      const form = document.getElementById("lead-form");
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        loanPurpose: form["loan-purpose"].value,
+        contactTime: form["contact-time"].value
+      };
+
+      fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.text())
+      .then(response => {
+        alert("Thanks! Your info has been submitted.");
+        form.reset();
+      })
+      .catch(err => {
+        alert("Something went wrong. Please try again.");
+        console.error(err);
+      });
+    }
+  </script>
 </body>
 </html>
