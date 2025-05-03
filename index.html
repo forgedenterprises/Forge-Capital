@@ -194,7 +194,7 @@
         contactTime: form["contact-time"].value
       };
 
-      fetch("/.netlify/functions/submit", {
+      fetch("https://script.google.com/macros/s/AKfycbzsqbz7KaCSKAzWrBhkw4Gfr45KW2Myj7uO6Z-YW76D4ek64O8VJcHE_8CRWsgBTRDe/exec", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
