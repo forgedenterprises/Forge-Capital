@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Forge Capital</title>
   <style>
     body {
@@ -135,7 +135,9 @@
         At Forge Capital, we do the heavy lifting so you can stay focused on life—not finance.
         No pressure. Just clarity, care, and results.
       </p>
-      <button class="cta-button" onclick="document.getElementById('lead-form').scrollIntoView({ behavior: 'smooth' })">Click Here to Forge Your Finances</button>
+      <button class="cta-button" onclick="document.getElementById('lead-form').scrollIntoView({ behavior: 'smooth' })">
+        Click Here to Forge Your Finances
+      </button>
 
       <div class="steps">
         <div class="step">
@@ -152,63 +154,66 @@
         </div>
       </div>
 
-      <form id="lead-form" onsubmit="submitToGoogle(event)">
+      <form id="lead-form" onsubmit="submitToSheet(event)">
         <input type="text" name="name" placeholder="First Name" required>
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="tel" name="phone" placeholder="Phone Number" required>
-        <select name="loan-purpose" required>
+        <select name="loanPurpose" required>
           <option value="">Loan Purpose</option>
-          <option value="personal-loan">Personal Loan</option>
-          <option value="refinance">Debt Consolidation</option>
-          <option value="car-loan">Car Loan</option>
-          <option value="business-loan">Business Loan</option>
-          <option value="unsure">Other / Unsure</option>
+          <option value="Personal Loan">Personal Loan</option>
+          <option value="Debt Consolidation">Debt Consolidation</option>
+          <option value="Car Loan">Car Loan</option>
+          <option value="Business Loan">Business Loan</option>
+          <option value="Other / Unsure">Other / Unsure</option>
         </select>
-        <input type="text" name="contact-time" placeholder="Preferred Contact Time (Optional)">
+        <input type="text" name="contactTime" placeholder="Preferred Contact Time (Optional)">
         <button type="submit">Book My Free Call</button>
       </form>
 
       <div class="footer-note">
-        ⚒️ Part of The Forge’D Enterprises Group
-        🔒 100% Obligation-Free Consultation
-        📄 Credit Licence: [INSERT LICENCE NUMBER HERE]
+        ⚒️ Part of The Forge’D Enterprises Group  
+        🔒 100% Obligation-Free Consultation  
+        📄 Credit Licence: [INSERT LICENCE NUMBER HERE]  
         🤝 Partnered with Fintelligence
       </div>
     </div>
+
     <p class="terms">
       By submitting this form, you agree to our privacy policy and consent to receive electronic communications in accordance with applicable Australian laws. Your personal information will be handled in compliance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs).
     </p>
   </main>
 
   <script>
-    function submitToGoogle(event) {
+    function submitToSheet(event) {
       event.preventDefault();
-
       const form = document.getElementById("lead-form");
 
       const data = {
-        name: form.name.value,
-        email: form.email.value,
-        phone: form.phone.value,
-        loanPurpose: form["loan-purpose"].value,
-        contactTime: form["contact-time"].value
+        Name: form.name.value,
+        Email: form.email.value,
+        Phone: form.phone.value,
+        "Loan Purpose": form.loanPurpose.value,
+        "Preferred Contact Time": form.contactTime.value,
+        Timestamp: new Date().toISOString()
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbzsqbz7KaCSKAzWrBhkw4Gfr45KW2Myj7uO6Z-YW76D4ek64O8VJcHE_8CRWsgBTRDe/exec", {
+      fetch("https://api.sheetbest.com/sheets/a4cc36ec-2822-4bfa-81a9-e43b34736884", {
         method: "POST",
-        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify(data)
       })
-      .then(res => res.text())
-      .then(response => {
+      .then(res => {
+        if (!res.ok) throw new Error("Failed request");
+        return res.text();
+      })
+      .then(() => {
         alert("Thanks! Your info has been submitted.");
         form.reset();
       })
-      .catch(err => {
+      .catch(() => {
         alert("Something went wrong. Please try again.");
-        console.error(err);
       });
     }
   </script>
