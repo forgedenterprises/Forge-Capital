@@ -188,13 +188,21 @@
       event.preventDefault();
       const form = document.getElementById("lead-form");
 
+      const now = new Date();
+      const utc10 = new Date(now.getTime() + 10 * 60 * 60 * 1000); // UTC+10 offset
+      const formattedTimestamp = `${utc10.getDate().toString().padStart(2, '0')}/${
+        (utc10.getMonth() + 1).toString().padStart(2, '0')}/${
+        utc10.getFullYear().toString().slice(-2)} - ${
+        utc10.getHours().toString().padStart(2, '0')}:${
+        utc10.getMinutes().toString().padStart(2, '0')} (UTC+10)`;
+
       const data = {
         Name: form.name.value,
         Email: form.email.value,
         Phone: form.phone.value,
         "Loan Purpose": form.loanPurpose.value,
         "Preferred Contact Time": form.contactTime.value,
-        Timestamp: new Date().toISOString()
+        Timestamp: formattedTimestamp
       };
 
       fetch("https://api.sheetbest.com/sheets/a4cc36ec-2822-4bfa-81a9-e43b34736884", {
