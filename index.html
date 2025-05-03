@@ -194,7 +194,7 @@
         contactTime: form["contact-time"].value
       };
 
-      fetch("https://forgedenterprises.netlify.app/.netlify/functions/submit", {
+      fetch("/.netlify/functions/submit", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
